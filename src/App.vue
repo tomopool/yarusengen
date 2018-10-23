@@ -1,19 +1,23 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
     <router-view/>
   </div>
 </template>
 
 <script>
+import locale from 'element-ui/lib/locale'
+import en from 'element-ui/lib/locale/lang/en'
+
 export default {
-  name: 'App'
+  name: 'App',
+  async beforeCreate() {
+    locale.use(en)
+  }
 }
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
