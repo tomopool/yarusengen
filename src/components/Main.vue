@@ -24,6 +24,7 @@
       <div class="suggestion">
       </div>
     </div>
+    <button @click="showList">やること</button>
   </div>
 </template>
 
@@ -40,6 +41,9 @@ export default {
   methods: {
     handleChange() {
 
+    },
+    showList() {
+      this.$router.push({name: 'List'})
     }
   }
 }
