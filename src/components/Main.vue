@@ -36,7 +36,7 @@
     <div class="operation-area">
       <el-button type="primary" @click="yaru" pround>やる！</el-button>
     </div>
-    <a href="#">やる宣言リスト</a>
+    <button @click="showList">やること</button>
   </div>
 </template>
 
@@ -61,6 +61,9 @@ export default {
         type: 'success',
         center: true
       });
+    },
+    showList() {
+      this.$router.push({name: 'List'})
     }
   }
 }

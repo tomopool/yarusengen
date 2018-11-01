@@ -3,24 +3,29 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import { Input, TimePicker, InputNumber, Button, Collapse, CollapseItem, Message } from 'element-ui'
+import store from './store'
+import { Input, Button, TimePicker, InputNumber, Table, TableColumn, Card, Collapse, CollapseItem, Message } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.config.productionTip = false
 
 Vue.use(Input)
+Vue.use(Button)
 Vue.use(TimePicker)
 Vue.use(InputNumber)
 Vue.use(Button)
 Vue.use(Collapse)
 Vue.use(CollapseItem)
-
+Vue.use(Table)
+Vue.use(TableColumn)
+Vue.use(Card)
 Vue.prototype.$message = Message;
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
