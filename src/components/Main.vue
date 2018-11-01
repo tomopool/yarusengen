@@ -3,18 +3,27 @@
     <h1>やる宣言</h1>
     <h2>いつやる？</h2>
     <div>
-      <div class="after">
-        <el-input-number v-model="whenAfter" @change="handleChange" :min="1" :max="99"></el-input-number>分後
-      </div>
-      <div class="specified">
-        <el-time-picker
-          v-model="whenSpecified"
-          :picker-options="{
-            selectableRange: '00:00:00 - 23:59:59'
-          }"
-          placeholder="Arbitrary time">
-        </el-time-picker>
-      </div>
+      <el-collapse v-model="activeName" accordion>
+        <el-collapse-item title="○○分後にやる" name="after">
+          <div class="after">
+            <el-input-number v-model="whenAfter" @change="handleChange" :min="1" :max="99"></el-input-number>分後
+          </div>
+        </el-collapse-item>
+        <el-collapse-item title="時間指定でやる" name="specified">
+          <div class="specified">
+            <el-time-picker
+              v-model="whenSpecified"
+              :picker-options="{
+                selectableRange: '00:00:00 - 23:59:59'
+              }"
+              :clearable="false"
+              format="HH:mm"
+              align="center"
+              placeholder="Arbitrary time">
+            </el-time-picker>
+          </div>
+        </el-collapse-item>
+      </el-collapse>
     </div>
     <h2>なにやる？</h2>
     <div>
@@ -24,6 +33,10 @@
       <div class="suggestion">
       </div>
     </div>
+    <div class="operation-area">
+      <el-button type="primary" @click="yaru" pround>やる！</el-button>
+    </div>
+    <a href="#">やる宣言リスト</a>
   </div>
 </template>
 
@@ -32,14 +45,22 @@ export default {
   name: 'Main',
   data () {
     return {
+      activeName: 'after',
       whenAfter: '',
-      whenSpecified: new Date(2016, 9, 10, 18, 40),
+      whenSpecified: new Date(),
       what: ''
     }
   },
   methods: {
     handleChange() {
-
+    },
+    yaru() {
+      this.$message({
+        message: 'やる宣言しました！',
+        showClose: true,
+        type: 'success',
+        center: true
+      });
     }
   }
 }
@@ -52,5 +73,8 @@ h1, h2 {
 }
 a {
   color: #42b983;
+}
+.operation-area {
+  margin: 1em;
 }
 </style>
