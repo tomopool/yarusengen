@@ -1,4 +1,4 @@
-const formatDate = (date, format) => {
+const formatDateTime = (date, format) => {
   format = format.replace(/yyyy/g, date.getFullYear());
   format = format.replace(/MM/g, ('0' + (date.getMonth() + 1)).slice(-2));
   format = format.replace(/dd/g, ('0' + date.getDate()).slice(-2));
@@ -10,5 +10,5 @@ const formatDate = (date, format) => {
 }
 
 export default {
-  formatDate
+  formatDateTime
 }
