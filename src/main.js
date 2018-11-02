@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
-import { Input, Button, TimePicker, InputNumber, Table, TableColumn, Card, Collapse, CollapseItem, Message } from 'element-ui'
+import { Input, Button, TimePicker, InputNumber, Table, TableColumn, Card, Collapse, CollapseItem, Message, Menu, MenuItem } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.config.productionTip = false
@@ -19,6 +19,9 @@ Vue.use(CollapseItem)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Card)
+Vue.use(Menu)
+Vue.use(MenuItem)
+
 Vue.prototype.$message = Message;
 
 /* eslint-disable no-new */
