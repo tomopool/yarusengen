@@ -52,12 +52,21 @@ export default {
     handleChange() {
     },
     yaru() {
+      debugger
+      // Twitter に投稿する機能
       this.$message({
         message: 'やる宣言しました！',
         showClose: true,
         type: 'success',
         center: true
       });
+      const data = {
+        after_time: this.whenAfter,
+        declaration: this.what,
+        specified_time: this.whenSpecified
+      }
+      debugger
+      this.$store.dispatch('addDeclaration', data)
     }
   }
 }

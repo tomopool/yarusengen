@@ -14,12 +14,12 @@ export default new Router({
       component: Main,
       children: [
         {
-          path: '/sengen',
+          path: 'sengen',
           name: 'Sengen',
           component: Sengen
         },
         {
-          path: '/list',
+          path: 'list',
           name: 'List',
           component: List
         }

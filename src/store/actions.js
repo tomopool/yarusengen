@@ -32,9 +32,28 @@ export default {
     })
   },
   addDeclaration({ commit }, payload) {
-    memosRef.add(payload)
+    debugger
+    firestore.FieldValue.serverTimestamp()
+    debugger
+    const declaration = {
+      after_time: payload.after_time,
+      create_date: Date.now(),
+      declaration: payload.declaration,
+      specified_time: payload.specified_time
+    }
+    declarationsRefs.add(declaration)
       .then(doc => {
-        // Do not mutate vuex store state outside mutation handlers.
+        debugger
+        const declaration = {
+          id: doc.id,
+          after_time: doc.data().after_time,
+          create_date: api.formatDateTime(new Date(doc.data().create_date.seconds * 1000), 'yyyy/MM/dd HH:mm:ss'),
+          declaration: doc.data().declaration,
+          specified_time: api.formatDateTime(new Date(doc.data().specified_time.seconds * 1000), 'yyyy/MM/dd HH:mm:ss'),
+        }
+        commit('ADD_DECLARATIONS', {
+          declaration
+        })
       })
       .catch(err => {
         console.error('Error adding document: ', err)
