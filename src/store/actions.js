@@ -32,9 +32,6 @@ export default {
     })
   },
   addDeclaration({ commit }, payload) {
-    debugger
-    firestore.FieldValue.serverTimestamp()
-    debugger
     const declaration = {
       after_time: payload.after_time,
       create_date: Date.now(),
