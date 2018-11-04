@@ -61,9 +61,14 @@ export default {
         center: true
       });
       const data = {
-        after_time: this.whenAfter,
-        declaration: this.what,
-        specified_time: this.whenSpecified
+        declaration: this.what
+      }
+      if (this.activeName === 'after') {
+        data.after_time = this.whenAfter
+        data.specified_time = null
+      } else {
+        data.after_time = null
+        data.specified_time = this.whenSpecified
       }
       debugger
       this.$store.dispatch('addDeclaration', data)

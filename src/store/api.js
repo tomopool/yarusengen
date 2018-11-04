@@ -9,6 +9,14 @@ const formatDateTime = (date, format) => {
   return format;
 }
 
+const formatDateTimeFromTimeStamp = (timeStamp, format) => {
+  if (!timeStamp) {
+    return ''
+  }
+  return formatDateTime(new Date(timeStamp.seconds * 1000), format)
+}
+
 export default {
-  formatDateTime
+  formatDateTime,
+  formatDateTimeFromTimeStamp
 }
