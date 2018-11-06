@@ -8,7 +8,6 @@ export default {
   getDeclarations({commit}) {
     declarationsRefs.get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        debugger
         const declaration = {
           id: doc.id,
           after_time: doc.data().after_time,
@@ -25,33 +24,24 @@ export default {
   clearDeclarations({commit}) {
     commit('DELETE_DECLARATIONS')
   },
-  doneDeclaration({commit}, payload) {
-    declarationsRefs.doc(payload.documentId).delete().then(() => {
-      debugger
+  doneDeclaration({dispatch}, payload) {
+    declarationsRefs.doc(payload.documentId).delete()
+    .then(() => {
+      dispatch('clearDeclarations')
+      dispatch('getDeclarations')
     }).catch((error) => {
       debugger
     })
   },
-  addDeclaration({ commit }, payload) {
+  async addDeclaration({}, payload) {
     const declaration = {
       after_time: payload.after_time,
       create_date: new Date(Date.now()),
       declaration: payload.declaration,
       specified_time: payload.specified_time
     }
-    declarationsRefs.add(declaration)
-      .then(doc => {
-        debugger
-        const declaration = {
-          id: doc.id,
-          after_time: doc.data().after_time,
-          create_date: api.formatDateTimeFromTimeStamp(doc.data().create_date, 'yyyy/MM/dd HH:mm:ss'),
-          declaration: doc.data().declaration,
-          specified_time: api.formatDateTimeFromTimeStamp(doc.data().specified_time, 'yyyy/MM/dd HH:mm:ss'),
-        }
-        commit('ADD_DECLARATIONS', {
-          declaration
-        })
+    await declarationsRefs.add(declaration)
+      .then(() => {
       })
       .catch(err => {
         console.error('Error adding document: ', err)

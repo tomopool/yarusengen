@@ -1,6 +1,6 @@
 <template>
   <div class="card-view-outer">
-    <div v-for="declaration in declarations" :key="declaration.id" class="declaration">
+    <div v-for="declaration in declarations" :key="declaration.id" class="declaration is-show" :id="declaration.id">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
           <span>{{declaration.declaration}}</span>
@@ -42,6 +42,8 @@ export default {
       this.$store.dispatch('doneDeclaration', {
         documentId
       })
+      debugger
+      document.getElementById(documentId).classList.toggle('is-show')
     }
   },
   computed: {
@@ -80,8 +82,15 @@ ul {
 .clearfix:after {
   clear: both
 }
+.declaration {
+  transition: opacity 1s, visibility 0s ease 1s;
+  opacity: 0;
+  visibility: hidden;
+}
 
-.box-card {
-  /* width: 480px; */
+.declaration.is-show {
+  transition-delay: 0s;
+  opacity: 1;
+  visibility: visible;
 }
 </style>

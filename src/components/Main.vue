@@ -49,7 +49,7 @@ export default {
 <style scoped>
 #grid-container {
   display: grid; /* グリッドレイアウト */
-  grid-template-rows: 100vh;
+  grid-template-rows: 80vh;
   grid-template-columns: 0.2fr 0.8fr;
 }
 .el-menu-vertical-demo:not(.el-menu--collapse) {

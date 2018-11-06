@@ -51,15 +51,9 @@ export default {
   methods: {
     handleChange() {
     },
-    yaru() {
-      debugger
-      // Twitter に投稿する機能
-      this.$message({
-        message: 'やる宣言しました！',
-        showClose: true,
-        type: 'success',
-        center: true
-      });
+    async yaru() {
+
+      // Twitter に投稿する機能ぽぴい
       const data = {
         declaration: this.what
       }
@@ -70,8 +64,15 @@ export default {
         data.after_time = null
         data.specified_time = this.whenSpecified
       }
-      debugger
-      this.$store.dispatch('addDeclaration', data)
+
+      await this.$store.dispatch('addDeclaration', data)
+
+      this.$message({
+        message: 'やる宣言しました！',
+        showClose: true,
+        type: 'success',
+        center: true
+      });
     }
   }
 }
@@ -79,6 +80,7 @@ export default {
 
 <style>
 * {
+  box-sizing: border-box;
   text-align: center;
 }
 h1, h2 {
