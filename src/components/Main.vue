@@ -3,7 +3,7 @@
     <h1>やる宣言</h1>
     <div id="grid-container">
       <div id="nav-menu">
-        <el-menu default-active="1" class="el-menu-vertical-demo" @select="handleSelect" :collapse="isCollapse">
+        <el-menu :default-active="defaultMenu" class="el-menu-vertical-demo" @select="handleSelect" :collapse="isCollapse">
           <el-menu-item index="1">
             <i class="el-icon-star-on"></i>
             <span slot="title">宣言</span>
@@ -26,8 +26,14 @@ export default {
   name: 'Main',
   data() {
     return {
-      isCollapse: false
-    };
+      isCollapse: false,
+      defaultMenu: '1'
+    }
+  },
+  created() {
+    if (this.$route.name === 'List') {
+      this.defaultMenu = '2'
+    }
   },
   methods: {
     handleSelect(key, keyPath) {
@@ -47,6 +53,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+* {
+  box-sizing: border-box;
+  text-align: center;
+}
+h1, h2 {
+  font-weight: normal;
+}
+a {
+  color: #42b983;
+}
 #grid-container {
   display: grid; /* グリッドレイアウト */
   grid-template-rows: 80vh;

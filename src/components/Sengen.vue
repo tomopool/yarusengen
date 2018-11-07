@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="sengen-area">
     <h2>いつやる？</h2>
     <div>
       <el-collapse v-model="activeName" accordion>
@@ -64,6 +64,7 @@ export default {
         data.after_time = null
         data.specified_time = this.whenSpecified
       }
+      data.yaru_type = this.activeName
 
       await this.$store.dispatch('addDeclaration', data)
 
@@ -79,15 +80,8 @@ export default {
 </script>
 
 <style>
-* {
-  box-sizing: border-box;
-  text-align: center;
-}
-h1, h2 {
-  font-weight: normal;
-}
-a {
-  color: #42b983;
+#sengen-area {
+  padding: 1em;
 }
 .operation-area {
   margin: 1em;

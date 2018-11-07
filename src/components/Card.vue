@@ -8,10 +8,10 @@
         </div>
         <ul>
           <li>
-            宣言日：{{declaration.create_date}}
+            宣言日：{{formatDate(declaration.create_date)}}
           </li>
           <li>
-            いつやるの？：{{whenDoIt(declaration.after_time, declaration.specified_time)}}
+            いつやるの？：{{whenDoIt(declaration)}}
           </li>
         </ul>
       </el-card>
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import api from '../store/api.js'
 export default {
   mounted () {
     this.start()
@@ -31,19 +32,24 @@ export default {
     start () {
       this.$store.dispatch('getDeclarations')
     },
-    whenDoIt(afterTime, specifiedTime) {
-      if (afterTime !== null) {
-        return `${afterTime} 分後`
+    whenDoIt(declarationInfo) {
+      let date
+      if (declarationInfo.yaru_type === 'after') {
+        date = api.addMinutesFromTimeStamp(declarationInfo.create_date, declarationInfo.after_time)
       } else {
-        return specifiedTime
+        date = new Date(declarationInfo.specified_time.seconds * 1000)
+        date.setSeconds(0)
       }
+      return api.formatDateTime(date, 'yyyy/MM/dd HH:mm:ss')
     },
     done(documentId) {
       this.$store.dispatch('doneDeclaration', {
         documentId
       })
-      debugger
       document.getElementById(documentId).classList.toggle('is-show')
+    },
+    formatDate(timeStamp) {
+      return api.formatDateTimeFromTimeStamp(timeStamp, 'yyyy/MM/dd HH:mm:ss')
     }
   },
   computed: {
@@ -86,6 +92,8 @@ ul {
   transition: opacity 1s, visibility 0s ease 1s;
   opacity: 0;
   visibility: hidden;
+  width: 100%;
+  margin-bottom: 1em;
 }
 
 .declaration.is-show {

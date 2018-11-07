@@ -8,12 +8,14 @@ export default {
   getDeclarations({commit}) {
     declarationsRefs.get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
+        const data = doc.data()
         const declaration = {
           id: doc.id,
-          after_time: doc.data().after_time,
-          create_date: api.formatDateTimeFromTimeStamp(doc.data().create_date, 'yyyy/MM/dd HH:mm:ss'),
-          declaration: doc.data().declaration,
-          specified_time: api.formatDateTimeFromTimeStamp(doc.data().specified_time, 'yyyy/MM/dd HH:mm:ss'),
+          after_time: data.after_time,
+          create_date: data.create_date,
+          declaration: data.declaration,
+          specified_time: data.specified_time,
+          yaru_type: data.yaru_type
         }
         commit('ADD_DECLARATIONS', {
           declaration
@@ -29,8 +31,8 @@ export default {
     .then(() => {
       dispatch('clearDeclarations')
       dispatch('getDeclarations')
-    }).catch((error) => {
-      debugger
+    }).catch(err => {
+      console.error('Error adding document: ', err)
     })
   },
   async addDeclaration({}, payload) {
@@ -38,7 +40,8 @@ export default {
       after_time: payload.after_time,
       create_date: new Date(Date.now()),
       declaration: payload.declaration,
-      specified_time: payload.specified_time
+      specified_time: payload.specified_time,
+      yaru_type: payload.yaru_type
     }
     await declarationsRefs.add(declaration)
       .then(() => {
