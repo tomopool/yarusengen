@@ -1,7 +1,15 @@
 <template>
   <div>
-    <table-view v-if="viewMode === 'table'" />
-    <card-view v-if="viewMode === 'card'" />
+    <table-view
+      v-if="viewMode === 'table'"
+      :declarations="declarations"
+      :done="handleDone"
+    />
+    <card-view
+      v-if="viewMode === 'card'"
+      :declarations="declarations"
+      :done="handleDone"
+    />
   </div>
 </template>
 
@@ -14,6 +22,29 @@ export default {
   data() {
     return {
       viewMode: 'card'
+    }
+  },
+  mounted () {
+    this.start()
+  },
+  destroyed () {
+    this.$store.dispatch('clearDeclarations')
+  },
+  methods: {
+    start () {
+      this.$store.dispatch('getDeclarations')
+    },
+    handleDone(documentId) {
+      debugger
+      this.$store.dispatch('doneDeclaration', {
+        documentId
+      })
+      document.getElementById(documentId).classList.toggle('is-show')
+    }
+  },
+  computed: {
+    declarations () {
+      return this.$store.state.declarations
     }
   }
 }

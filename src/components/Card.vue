@@ -11,7 +11,7 @@
             宣言日：{{formatDate(declaration.create_date)}}
           </li>
           <li>
-            いつやるの？：{{whenDoIt(declaration)}}
+            いつやる？：{{whenDoIt(declaration)}}
           </li>
         </ul>
       </el-card>
@@ -22,16 +22,13 @@
 <script>
 import api from '../store/api.js'
 export default {
-  mounted () {
-    this.start()
-  },
-  destroyed () {
-    this.$store.dispatch('clearDeclarations')
+  props: {
+    declarations: {
+      type: Array,
+      default: () => []
+    }
   },
   methods: {
-    start () {
-      this.$store.dispatch('getDeclarations')
-    },
     whenDoIt(declarationInfo) {
       let date
       if (declarationInfo.yaru_type === 'after') {
@@ -42,24 +39,15 @@ export default {
       }
       return api.formatDateTime(date, 'yyyy/MM/dd HH:mm:ss')
     },
-    done(documentId) {
-      this.$store.dispatch('doneDeclaration', {
-        documentId
-      })
-      document.getElementById(documentId).classList.toggle('is-show')
-    },
     formatDate(timeStamp) {
       return api.formatDateTimeFromTimeStamp(timeStamp, 'yyyy/MM/dd HH:mm:ss')
-    }
-  },
-  computed: {
-    declarations () {
-      return this.$store.state.declarations
+    },
+    done(documentId) {
+      this.$emit('done', documentId)
     }
   }
 }
 </script>
-
 
 <style>
 .card-view-outer {
