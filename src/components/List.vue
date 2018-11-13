@@ -8,7 +8,7 @@
     <card-view
       v-if="viewMode === 'card'"
       :declarations="declarations"
-      :done="handleDone"
+      @done-declaration="handleDone"
     />
   </div>
 </template>
@@ -35,7 +35,6 @@ export default {
       this.$store.dispatch('getDeclarations')
     },
     handleDone(documentId) {
-      debugger
       this.$store.dispatch('doneDeclaration', {
         documentId
       })

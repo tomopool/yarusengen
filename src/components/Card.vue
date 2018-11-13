@@ -43,7 +43,7 @@ export default {
       return api.formatDateTimeFromTimeStamp(timeStamp, 'yyyy/MM/dd HH:mm:ss')
     },
     done(documentId) {
-      this.$emit('done', documentId)
+      this.$emit('done-declaration', documentId)
     }
   }
 }

@@ -22,46 +22,35 @@
         label="specified_time">
       </el-table-column>
     </el-table>
-    <div>
-      <button @click="toMain">もどる</button>
-    </div>
   </div>
 </template>
 
 
 <script>
-import {
-  startListener
-} from '../store/actions.js'
-
+import api from '../store/api.js'
 export default {
-  mounted () {
-    this.start()
-  },
-  destroyed () {
-    this.$store.dispatch('clearDeclarations')
-  },
-  methods: {
-    // init () {
-    //   this.$store.dispatch('memos/clear')
-    // },
-    start () {
-      // this.$store.dispatch('startListener')
-      this.$store.dispatch('getDeclarations')
-    },
-    // stop () {
-    //   this.$store.dispatch('memos/stopListener')
-    // },
-    // remove (id) {
-    //   this.$store.dispatch('clearDeclarations')
-    // },
-    toMain() {
-      this.$router.push({name: 'Main'})
+  props: {
+    declarations: {
+      type: Array,
+      default: () => []
     }
   },
-  computed: {
-    declarations () {
-      return this.$store.state.declarations
+  methods: {
+    whenDoIt(declarationInfo) {
+      let date
+      if (declarationInfo.yaru_type === 'after') {
+        date = api.addMinutesFromTimeStamp(declarationInfo.create_date, declarationInfo.after_time)
+      } else {
+        date = new Date(declarationInfo.specified_time.seconds * 1000)
+        date.setSeconds(0)
+      }
+      return api.formatDateTime(date, 'yyyy/MM/dd HH:mm:ss')
+    },
+    formatDate(timeStamp) {
+      return api.formatDateTimeFromTimeStamp(timeStamp, 'yyyy/MM/dd HH:mm:ss')
+    },
+    done(documentId) {
+      this.$emit('done-declaration', documentId)
     }
   }
 }
