@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <h1>やることリスト</h1>
+  <div class="table-view-outer">
     <el-table
       :data="declarations"
       height="250"
@@ -55,3 +54,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.table-view-outer {
+  padding: 1em;
+}
+</style>

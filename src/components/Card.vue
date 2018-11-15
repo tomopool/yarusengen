@@ -49,7 +49,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .card-view-outer {
   padding: 1em;
   display: flex;

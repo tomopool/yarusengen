@@ -1,5 +1,14 @@
 <template>
   <div>
+    <el-switch
+      style="display: block"
+      v-model="isCard"
+      active-color="#13ce66"
+      inactive-color="#ff4949"
+      active-text="Card"
+      inactive-text="Table"
+      @change="toggleViewMode">
+    </el-switch>
     <table-view
       v-if="viewMode === 'table'"
       :declarations="declarations"
@@ -21,7 +30,8 @@ export default {
   components: {TableView, CardView},
   data() {
     return {
-      viewMode: 'card'
+      viewMode: 'card',
+      isCard: true
     }
   },
   mounted () {
@@ -39,6 +49,9 @@ export default {
         documentId
       })
       document.getElementById(documentId).classList.toggle('is-show')
+    },
+    toggleViewMode() {
+      this.viewMode = this.viewMode === 'card' ? 'table' : 'card'
     }
   },
   computed: {
