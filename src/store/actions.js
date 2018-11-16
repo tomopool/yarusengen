@@ -1,7 +1,10 @@
-import firestore from '@/firebase/firestore'
 import api from './api.js'
+import firebaseApp from '@/firebase/firebaseApp.js'
+import 'firebase/firestore'
 
-const declarationsRefs = firestore.collection('declarations')
+const db = firebaseApp.firebase().firestore()
+db.settings({ timestampsInSnapshots: true })
+const declarationsRefs = db.collection('declarations')
 
 export default {
 

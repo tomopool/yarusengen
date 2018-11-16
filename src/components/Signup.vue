@@ -3,7 +3,7 @@
     <h2>Sign up</h2>
     <input type="text" placeholder="Username" v-model="username">
     <input type="password" placeholder="Password" v-model="password">
-    <button>Register</button>
+    <button @click="signUp">Register</button>
     <p>Do you have an account?
       <router-link to="/signin">sign in now!!</router-link>
     </p>
@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import firebaseUI from '@/firebase/firebaseUI.js'
+
 export default {
   name: 'Signup',
   data () {
@@ -19,7 +21,11 @@ export default {
       password: ''
     }
   },
-  methods: {}
+  methods: {
+    signUp() {
+      firebaseUI.createUserWithEmailAndPassword(this.username, this.password)
+    }
+  }
 }
 </script>
 

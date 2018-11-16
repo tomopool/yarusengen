@@ -1,7 +1,20 @@
-// import Firebase from 'firebase'
-// import 'firebase/firebaseui'
-// import config from './config.js'
+import 'firebaseui'
+import firebaseApp from '@/firebase/firebaseApp.js'
 
-// const firebaseApp = Firebase.initializeApp(config, 'exercise-vue')
+const fireAuth = firebaseApp.firebase().auth()
 
-// Firebase.auth()
+export default {
+  createUserWithEmailAndPassword(email, password) {
+    fireAuth.createUserWithEmailAndPassword(email, password)
+      .then(user => {
+        // TODO undefinedになってた user.email
+        console.log('auth create !!' + user.email)
+      })
+  },
+  signInWithEmailAndPassword(email, password) {
+    fireAuth.signInWithEmailAndPassword(email, password)
+      .then(user => {
+        console.log('auth signin !!')
+      })
+  }
+}

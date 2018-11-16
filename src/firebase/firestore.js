@@ -1,4 +1,4 @@
-import Firebase from 'firebase'
-import 'firebase/firestore'
+// import Firebase from 'firebase'
+// import 'firebase/firestore'
 
-export default Firebase.firestore()
+// export default Firebase.firestore()
