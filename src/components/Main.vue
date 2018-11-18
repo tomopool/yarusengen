@@ -12,6 +12,10 @@
             <i class="el-icon-tickets"></i>
             <span slot="title">リスト</span>
           </el-menu-item>
+          <el-menu-item index="3">
+            <i class="el-icon-tickets"></i>
+            <span slot="title">サインアウト</span>
+          </el-menu-item>
         </el-menu>
       </div>
       <div id="contents">
@@ -22,6 +26,8 @@
 </template>
 
 <script>
+import firebaseUI from '@/firebase/firebaseUI.js'
+
 export default {
   name: 'Main',
   data() {
@@ -42,6 +48,8 @@ export default {
         this.$router.push({name: 'Sengen'})
       } else if (key === '2') {
         this.$router.push({name: 'List'})
+      } else if (key === '3') {
+        firebaseUI.signOut()
       }
     },
     handleClose(key, keyPath) {
