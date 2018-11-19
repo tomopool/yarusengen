@@ -38,8 +38,6 @@ export default {
   },
   watch: {
     '$route' (to, from) {
-
-      debugger
       if (to.query.emailVerified === undefined) {
         // パラメータがそもそもない場合
         this.showNotEmailVerifiedMessage = false

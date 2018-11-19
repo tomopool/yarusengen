@@ -1,5 +1,6 @@
 import 'firebaseui'
 import firebaseApp from '@/firebase/firebaseApp.js'
+import router from '../router'
 
 const fireAuth = firebaseApp.firebase().auth()
 
@@ -23,12 +24,15 @@ export default {
   },
   signOut() {
     fireAuth.signOut().then(() => {
-      this.$router.push('/signin')
+      router.push('/signin')
     })
   },
   reSendVerifyMail() {
-    fireAuth.currentUser.sendEmailVerification({
+    getCurrentUser().sendEmailVerification({
       url: 'http://' + window.location.host + '/signin'
     })
+  },
+  getCurrentUser() {
+    return fireAuth.currentUser
   }
 }
