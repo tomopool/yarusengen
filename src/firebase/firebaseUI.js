@@ -5,15 +5,20 @@ const fireAuth = firebaseApp.firebase().auth()
 
 export default {
   createUserWithEmailAndPassword(email, password) {
+    debugger
     fireAuth.createUserWithEmailAndPassword(email, password)
-      .then(user => {
-        // TODO undefinedになってた user.email
-        console.log('auth create !!' + user.email)
+      .then(result => {
+        const newUser = result.user
+        newUser.sendEmailVerification({
+          url: 'http://' + window.location.host + '/signin'
+        })
+      }).catch(error => {
+        debugger
       })
   },
   signInWithEmailAndPassword(email, password) {
     fireAuth.signInWithEmailAndPassword(email, password)
-      .then(user => {
+      .then(result => {
         console.log('auth signin !!')
       })
   },

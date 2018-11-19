@@ -4,6 +4,7 @@
     <input type="text" placeholder="Username" v-model="username">
     <input type="password" placeholder="Password" v-model="password">
     <button @click="signIn">Signin</button>
+    <p id="not-email-verified" v-show="showNotEmailVerifiedMessage">メール認証が行われていません。</p>
     <p>You don't have an account?
       <router-link to="/signup">create account now!!</router-link>
     </p>
@@ -18,13 +19,30 @@ export default {
   data () {
     return {
       username: '',
-      password: ''
+      password: '',
+      showNotEmailVerifiedMessage: false
     }
   },
   methods: {
     signIn() {
       firebaseUI.signInWithEmailAndPassword(this.username, this.password)
       this.$router.push('/sengen')
+    }
+  },
+  watch: {
+    '$route' (to, from) {
+
+      debugger
+      if (to.query.emailVerified === undefined) {
+        // パラメータがそもそもない場合
+        this.showNotEmailVerifiedMessage = false
+      } else {
+        if (to.query.emailVerified === 'true') {
+          this.showNotEmailVerifiedMessage =  false
+        } else {
+          this.showNotEmailVerifiedMessage =  true
+        }
+      }
     }
   }
 }
@@ -57,5 +75,9 @@ a {
 input {
   margin: 10px 0;
   padding: 10px;
+}
+#not-email-verified {
+  color: red;
+  font-weight: bold;
 }
 </style>

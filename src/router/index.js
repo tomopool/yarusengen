@@ -50,15 +50,22 @@ let router = new Router({
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => {
-    debugger
     return record.meta.requiresAuth
   })
   if (requiresAuth) {
     // このルートはログインされているかどうか認証が必要です。
     // もしされていないならば、ログインページにリダイレクトします。
-    fireAuth.onAuthStateChanged(function (user) {
+    fireAuth.onAuthStateChanged(user => {
       if (user) {
-        next()
+        if (!user.emailVerified) {
+          // メール認証が行われていない
+          next({
+            path: '/signin',
+            query: { emailVerified: false }
+          })
+        } else {
+          next()
+        }
       } else {
         next({
           path: '/signin',
