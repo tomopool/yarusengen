@@ -16,5 +16,10 @@ export default {
       .then(user => {
         console.log('auth signin !!')
       })
+  },
+  signOut() {
+    fireAuth.signOut().then(() => {
+      this.$router.push('/signin')
+    })
   }
 }

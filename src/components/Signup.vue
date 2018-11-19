@@ -24,6 +24,7 @@ export default {
   methods: {
     signUp() {
       firebaseUI.createUserWithEmailAndPassword(this.username, this.password)
+      this.$router.push('/signin')
     }
   }
 }

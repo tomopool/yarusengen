@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import 'firebaseui'
+import firebaseApp from '@/firebase/firebaseApp.js'
 import Main from '@/components/Main'
 import List from '@/components/List'
 import Sengen from '@/components/Sengen'
@@ -8,23 +10,28 @@ import Signin from '@/components/Signin'
 
 Vue.use(Router)
 
-export default new Router({
+const fireAuth = firebaseApp.firebase().auth()
+
+let router = new Router({
   mode: 'history',
   routes: [
     {
       path: '/',
       name: 'Main',
       component: Main,
+      meta: { requiresAuth: true },
       children: [
         {
           path: 'sengen',
           name: 'Sengen',
-          component: Sengen
+          component: Sengen,
+          meta: { requiresAuth: true }
         },
         {
           path: 'list',
           name: 'List',
-          component: List
+          component: List,
+          meta: { requiresAuth: true }
         }
       ]
     },
@@ -40,3 +47,28 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some(record => {
+    debugger
+    return record.meta.requiresAuth
+  })
+  if (requiresAuth) {
+    // このルートはログインされているかどうか認証が必要です。
+    // もしされていないならば、ログインページにリダイレクトします。
+    fireAuth.onAuthStateChanged(function (user) {
+      if (user) {
+        next()
+      } else {
+        next({
+          path: '/signin',
+          query: { redirect: to.fullPath }
+        })
+      }
+    })
+  } else {
+    next() // next() を常に呼び出すようにしてください!
+  }
+})
+
+export default router
