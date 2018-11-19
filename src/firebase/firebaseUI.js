@@ -5,7 +5,6 @@ const fireAuth = firebaseApp.firebase().auth()
 
 export default {
   createUserWithEmailAndPassword(email, password) {
-    debugger
     fireAuth.createUserWithEmailAndPassword(email, password)
       .then(result => {
         const newUser = result.user
@@ -25,6 +24,11 @@ export default {
   signOut() {
     fireAuth.signOut().then(() => {
       this.$router.push('/signin')
+    })
+  },
+  reSendVerifyMail() {
+    fireAuth.currentUser.sendEmailVerification({
+      url: 'http://' + window.location.host + '/signin'
     })
   }
 }

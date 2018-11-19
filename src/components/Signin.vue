@@ -4,7 +4,10 @@
     <input type="text" placeholder="Username" v-model="username">
     <input type="password" placeholder="Password" v-model="password">
     <button @click="signIn">Signin</button>
-    <p id="not-email-verified" v-show="showNotEmailVerifiedMessage">メール認証が行われていません。</p>
+    <div id="not-email-verified" v-show="showNotEmailVerifiedMessage">
+      <p>メール認証が行われていません。</p>
+      <a href="#" @click="reSendVerifyMail">もう一度認証メールを送信する</a>
+    </div>
     <p>You don't have an account?
       <router-link to="/signup">create account now!!</router-link>
     </p>
@@ -27,6 +30,10 @@ export default {
     signIn() {
       firebaseUI.signInWithEmailAndPassword(this.username, this.password)
       this.$router.push('/sengen')
+    },
+    reSendVerifyMail() {
+      debugger
+      firebaseUI.reSendVerifyMail()
     }
   },
   watch: {
