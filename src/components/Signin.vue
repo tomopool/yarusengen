@@ -28,7 +28,16 @@ export default {
   },
   methods: {
     async signIn() {
+      const loading = Loading.service({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+
       await firebaseUI.signInWithEmailAndPassword(this.username, this.password)
+
+      loading.close();
       this.$router.push('/sengen')
     },
     reSendVerifyMail() {
