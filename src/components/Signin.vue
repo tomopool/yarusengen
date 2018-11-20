@@ -27,8 +27,8 @@ export default {
     }
   },
   methods: {
-    signIn() {
-      firebaseUI.signInWithEmailAndPassword(this.username, this.password)
+    async signIn() {
+      await firebaseUI.signInWithEmailAndPassword(this.username, this.password)
       this.$router.push('/sengen')
     },
     reSendVerifyMail() {

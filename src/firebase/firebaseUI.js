@@ -16,11 +16,8 @@ export default {
         debugger
       })
   },
-  signInWithEmailAndPassword(email, password) {
-    fireAuth.signInWithEmailAndPassword(email, password)
-      .then(result => {
-        console.log('auth signin !!')
-      })
+  async signInWithEmailAndPassword(email, password) {
+    await fireAuth.signInWithEmailAndPassword(email, password)
   },
   signOut() {
     fireAuth.signOut().then(() => {
