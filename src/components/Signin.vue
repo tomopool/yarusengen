@@ -1,7 +1,7 @@
 <template>
   <div class="signin">
     <h2>Sign in</h2>
-    <input type="text" placeholder="Username" v-model="username">
+    <input type="text" placeholder="Email" v-model="email">
     <input type="password" placeholder="Password" v-model="password">
     <button @click="signIn">Signin</button>
     <div id="not-email-verified" v-show="showNotEmailVerifiedMessage">
@@ -21,27 +21,36 @@ export default {
   name: 'Signin',
   data () {
     return {
-      username: '',
+      email: '',
       password: '',
       showNotEmailVerifiedMessage: false
     }
   },
   methods: {
     async signIn() {
-      const loading = Loading.service({
+      const loading = this.$loading({
         lock: true,
         text: 'Loading',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       })
 
-      await firebaseUI.signInWithEmailAndPassword(this.username, this.password)
+      const result = await firebaseUI.signInWithEmailAndPassword(this.email, this.password)
 
       loading.close();
-      this.$router.push('/sengen')
+      if (result.error) {
+        this.$message({
+          message: result.message,
+          showClose: true,
+          type: 'error',
+          duration: 10000,
+          center: true
+        });
+      } else {
+        this.$router.push('/sengen')
+      }
     },
     reSendVerifyMail() {
-      debugger
       firebaseUI.reSendVerifyMail()
     }
   },

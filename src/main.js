@@ -22,7 +22,8 @@ Vue.use(Card)
 Vue.use(Menu)
 Vue.use(MenuItem)
 Vue.use(Switch)
-Vue.use(Loading.service)
+
+Vue.prototype.$loading = Loading.service;
 Vue.prototype.$message = Message;
 
 /* eslint-disable no-new */

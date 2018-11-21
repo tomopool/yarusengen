@@ -17,7 +17,18 @@ export default {
       })
   },
   async signInWithEmailAndPassword(email, password) {
-    await fireAuth.signInWithEmailAndPassword(email, password)
+    try {
+      await fireAuth.signInWithEmailAndPassword(email, password)
+    } catch (error) {
+      return {
+        error: true,
+        message: error.message
+      }
+    }
+
+    return {
+      error: false
+    }
   },
   signOut() {
     fireAuth.signOut().then(() => {
