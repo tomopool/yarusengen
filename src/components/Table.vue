@@ -58,6 +58,9 @@ export default {
     },
     done(documentId) {
       this.$emit('done-declaration', documentId)
+    },
+    deleteDec(documentId) {
+      this.$emit('delete-declaration', documentId)
     }
   }
 }

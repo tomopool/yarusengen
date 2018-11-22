@@ -3,6 +3,7 @@
     <div v-for="declaration in declarations" :key="declaration.id" class="declaration is-show" :id="declaration.id">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
+          <el-button style="float: left; padding: 3px 0" type="text" @click="deleteDec(declaration.id)">Delete</el-button>
           <span>{{declaration.declaration}}</span>
           <el-button style="float: right; padding: 3px 0" type="text" @click="done(declaration.id)">Done</el-button>
         </div>
@@ -44,6 +45,9 @@ export default {
     },
     done(documentId) {
       this.$emit('done-declaration', documentId)
+    },
+    deleteDec(documentId) {
+      this.$emit('delete-declaration', documentId)
     }
   }
 }

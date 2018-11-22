@@ -9,39 +9,58 @@ const declarationsRefs = db.collection('declarations')
 
 export default {
 
-  getDeclarations({commit}) {
-    const user = firebaseUI.getCurrentUser()
-    declarationsRefs.where("author", "==", user.uid).get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const data = doc.data()
-          const declaration = {
-            id: doc.id,
-            after_time: data.after_time,
-            create_date: data.create_date,
-            declaration: data.declaration,
-            specified_time: data.specified_time,
-            yaru_type: data.yaru_type
-          }
-          commit('ADD_DECLARATIONS', {
-            declaration
-          })
+  async getDeclarations({commit}) {
+    try {
+      const user = firebaseUI.getCurrentUser()
+      const querySnapshot = await declarationsRefs
+        .where("author", "==", user.uid)
+        .where("deleted", "==", false)
+        .where("done", "==", false)
+        .get()
+      querySnapshot.forEach((doc) => {
+        const data = doc.data()
+        const declaration = {
+          id: doc.id,
+          after_time: data.after_time,
+          create_date: data.create_date,
+          declaration: data.declaration,
+          specified_time: data.specified_time,
+          yaru_type: data.yaru_type
+        }
+        commit('ADD_DECLARATIONS', {
+          declaration
         })
-      }).catch(error => {
-        debugger
       })
+    } catch (error) {
+      console.error('Error get document: ', error)
+    }
   },
   clearDeclarations({commit}) {
     commit('DELETE_DECLARATIONS')
   },
-  doneDeclaration({dispatch}, payload) {
-    declarationsRefs.doc(payload.documentId).delete()
-    .then(() => {
-      dispatch('clearDeclarations')
-      dispatch('getDeclarations')
-    }).catch(err => {
-      console.error('Error adding document: ', err)
-    })
+  async doneDeclaration({dispatch}, payload) {
+    try {
+      await declarationsRefs.doc(payload.documentId)
+        .update({
+          done: true
+        })
+    } catch (error) {
+      console.error('Error done document: ', error)
+    }
+    dispatch('clearDeclarations')
+    dispatch('getDeclarations')
+  },
+  async deleteDeclaration({dispatch}, payload) {
+    try {
+      await declarationsRefs.doc(payload.documentId)
+        .update({
+          deleted: true
+        })
+    } catch (error) {
+      console.error('Error deleting document: ', error)
+    }
+    dispatch('clearDeclarations')
+    dispatch('getDeclarations')
   },
   async addDeclaration({}, payload) {
     const user = firebaseUI.getCurrentUser()
@@ -53,7 +72,8 @@ export default {
       create_date: new Date(Date.now()),
       author: user.uid,
       published: false,
-      deleted: false
+      deleted: false,
+      done: false
     }
     await declarationsRefs.add(declaration)
       .then(() => {

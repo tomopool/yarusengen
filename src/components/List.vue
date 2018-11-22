@@ -12,12 +12,14 @@
     <table-view
       v-if="viewMode === 'table'"
       :declarations="declarations"
-      :done="handleDone"
+      @done-declaration="handleDone"
+      @delete-declaration="handleDelete"
     />
     <card-view
       v-if="viewMode === 'card'"
       :declarations="declarations"
       @done-declaration="handleDone"
+      @delete-declaration="handleDelete"
     />
   </div>
 </template>
@@ -46,6 +48,12 @@ export default {
     },
     handleDone(documentId) {
       this.$store.dispatch('doneDeclaration', {
+        documentId
+      })
+      document.getElementById(documentId).classList.toggle('is-show')
+    },
+    handleDelete(documentId) {
+      this.$store.dispatch('deleteDeclaration', {
         documentId
       })
       document.getElementById(documentId).classList.toggle('is-show')
