@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-switch
+    <!-- <el-switch
       style="display: block"
       v-model="isCard"
       active-color="#13ce66"
@@ -8,13 +8,13 @@
       active-text="Card"
       inactive-text="Table"
       @change="toggleViewMode">
-    </el-switch>
-    <table-view
+    </el-switch> -->
+    <!-- <table-view
       v-if="viewMode === 'table'"
       :declarations="declarations"
       @done-declaration="handleDone"
       @delete-declaration="handleDelete"
-    />
+    /> -->
     <card-view
       v-if="viewMode === 'card'"
       :declarations="declarations"
@@ -25,11 +25,12 @@
 </template>
 
 <script>
-import TableView from './Table'
+// import TableView from './Table'
 import CardView from './Card'
 
 export default {
-  components: {TableView, CardView},
+  // components: {TableView, CardView},
+  components: {CardView},
   data() {
     return {
       viewMode: 'card',
